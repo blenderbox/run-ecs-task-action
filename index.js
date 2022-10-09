@@ -5,13 +5,14 @@ const MAX_WAIT_MINUTES = 360;  // 6 hours
 const WAIT_DEFAULT_DELAY_SEC = 15;
 
 // Run task in cluster that uses the 'ECS' deployment controller
-async function runTask(ecs, clusterName, taskDefArn, taskCount, waitForTask, waitForMinutes, taskOverrides) {
+async function runTask(ecs, clusterName, taskDefArn, taskCount, waitForTask, waitForMinutes, networkConfiguration, taskOverrides) {
   core.debug('Starting the task');
   let runTaskResponse;
   runTaskResponse = await ecs.runTask({
     cluster: clusterName,
     taskDefinition: taskDefArn,
     count: taskCount,
+    networkConfiguration: networkConfiguration,
     overrides: taskOverrides
   }).promise();
 
@@ -94,6 +95,7 @@ async function run() {
     const cluster = core.getInput('cluster', { required: false });
     const taskCount = parseInt(core.getInput('count', { required: false })) || 1;
     const taskOverrides = core.getInput('overrides', { required: false });
+    const networkConfiguration = core.getInput('network-configuration', { required: false})
     const waitForTask = core.getInput('wait-for-task-completion', { required: false });
     let waitForMinutes = parseInt(core.getInput('wait-for-minutes', { required: false })) || 30;
     if (waitForMinutes > MAX_WAIT_MINUTES) {
@@ -118,7 +120,8 @@ async function run() {
     // Run the task with the task definition
     const clusterName = cluster ? cluster : 'default';
     const overrides = taskOverrides ? JSON.parse(taskOverrides) : {};
-    await runTask(ecs, clusterName, taskDefArn, taskCount, waitForTask, waitForMinutes, overrides);
+    const networkConfiguration = networkConfiguration ? JSON.parse(networkConfiguration) : {};
+    await runTask(ecs, clusterName, taskDefArn, taskCount, waitForTask, waitForMinutes, networkConfiguration, overrides);
   }
   catch (error) {
     core.setFailed(error.message);
