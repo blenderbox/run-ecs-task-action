@@ -115,6 +115,7 @@ describe('Deploy to ECS', () => {
             cluster: 'cluster-789',
             taskDefinition: 'task:def:arn',
             count: 1,
+            networkConfiguration: {},
             overrides: {}
         });
         expect(mockEcsWaiter).toHaveBeenCalledTimes(0);
@@ -151,6 +152,7 @@ describe('Deploy to ECS', () => {
             cluster: 'default',
             taskDefinition: 'task:def:arn',
             count: 1,
+            networkConfiguration: {},
             overrides: {}
         });
     });
