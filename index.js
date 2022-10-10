@@ -8,13 +8,14 @@ const WAIT_DEFAULT_DELAY_SEC = 15;
 async function runTask(ecs, clusterName, taskDefArn, taskCount, waitForTask, waitForMinutes, networkConfiguration, taskOverrides) {
   core.debug('Starting the task');
   let runTaskResponse;
-  runTaskResponse = await ecs.runTask({
+  let taskParams = {
     cluster: clusterName,
     taskDefinition: taskDefArn,
     count: taskCount,
-    networkConfiguration: {networkConfiguration},
+    networkConfiguration: networkConfiguration,
     overrides: taskOverrides
-  }).promise();
+  } 
+  runTaskResponse = await ecs.runTask(taskParams).promise();
 
   if (runTaskResponse.failures && runTaskResponse.failures.length > 0) {
     const failure = runTaskResponse.failures[0];
