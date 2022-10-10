@@ -129,6 +129,7 @@ describe('Deploy to ECS', () => {
             .mockReturnValueOnce('cluster-789')                               // cluster
             .mockReturnValueOnce('1')                                         // count
             .mockReturnValueOnce("")                                          // override
+            .mockReturnValueOnce("")                                          // config?
             .mockReturnValueOnce('true');                                     // wait-for-finish
 
         await run();
