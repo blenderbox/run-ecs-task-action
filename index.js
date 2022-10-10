@@ -12,7 +12,7 @@ async function runTask(ecs, clusterName, taskDefArn, taskCount, waitForTask, wai
     cluster: clusterName,
     taskDefinition: taskDefArn,
     count: taskCount,
-    networkConfiguration: networkConfiguration,
+    networkConfiguration: {networkConfiguration},
     overrides: taskOverrides
   }).promise();
 
