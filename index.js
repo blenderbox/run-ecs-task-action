@@ -14,7 +14,9 @@ async function runTask(ecs, clusterName, taskDefArn, taskCount, waitForTask, wai
     count: taskCount,
     networkConfiguration: networkConfiguration,
     overrides: taskOverrides
-  } 
+  };
+  core.debug("calling runTask with:");
+  core.debug(taskParams);
   runTaskResponse = await ecs.runTask(taskParams).promise();
 
   if (runTaskResponse.failures && runTaskResponse.failures.length > 0) {
