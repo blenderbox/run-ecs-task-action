@@ -124,8 +124,8 @@ async function run() {
     // Run the task with the task definition
     const clusterName = cluster ? cluster : 'default';
     const overrides = taskOverrides ? JSON.parse(taskOverrides) : {};
-    const networkConfiguration = networkConfiguration ? JSON.parse(networkConfiguration) : {};
-    await runTask(ecs, clusterName, taskDefArn, taskCount, waitForTask, waitForMinutes, networkConfiguration, overrides);
+    const netConfig = networkConfiguration ? JSON.parse(networkConfiguration) : {};
+    await runTask(ecs, clusterName, taskDefArn, taskCount, waitForTask, waitForMinutes, netConfig, overrides);
   }
   catch (error) {
     core.setFailed(error.message);
